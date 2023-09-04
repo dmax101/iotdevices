@@ -37,8 +37,13 @@ export class AuthService {
 
   validateCredentials(username: string, password: string) {
     const user = users.find(
-      (u) => u.username === username && bcrypt.compareSync(password, u.password),
+      (u) =>
+        u.username === username && bcrypt.compareSync(password, u.password),
     );
+
+    if (!user) {
+      throw new Error('User not found!');
+    }
 
     return user;
   }
