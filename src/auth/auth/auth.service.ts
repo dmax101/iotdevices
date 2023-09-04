@@ -47,4 +47,22 @@ export class AuthService {
 
     return user;
   }
+
+  async getHash(password: string): Promise<string> {
+    return await new Promise<string>((resolve, reject) => {
+      bcrypt.genSalt(10, (err: any, salt: any) => {
+        if (err) {
+          reject(err);
+        } else {
+          bcrypt.hash(password, salt, (err: any, hash: string) => {
+            if (err) {
+              reject(err);
+            } else {
+              resolve(hash);
+            }
+          });
+        }
+      });
+    });
+  }
 }

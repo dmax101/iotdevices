@@ -3,16 +3,22 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
-import { ConfigModule } from '@nestjs/config';
-import configuration from './config/configuration';
+import { TypeOrmModule } from '@nestjs/typeorm';
+
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
-    ConfigModule.forRoot({
-      isGlobal: true,
-      load: [configuration],
+    TypeOrmModule.forRoot({
+      type: 'postgres',
+      host: 'localhost',
+      port: 5432,
+      username: 'postgres',
+      password: 'postgres',
+      database: 'db_iotdevices',
+      entities: ["dist/**/*.model.js"],
+      synchronize: true,
     }),
   ],
   controllers: [AppController],
