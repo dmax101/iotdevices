@@ -1,0 +1,11 @@
+PORT https://localhost:3000/test-auth
+Content-Type: application/json
+
+{
+  "username": "user1@user.com",
+  "password": "senhadodanilo"
+}
+
+###
+GET https://localhost:3000/test-auth
+Authorization: Bearer eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJzdWIiOjEsInVzZXJuYW1lIjoidXNlcjFAdXNlci5jb20iLCJpYXQiOjE2OTM3OTIxMDcsImV4cCI6MTY5Mzc5MjIyN30.txurvkiJQjNRNmUG2eV5hEEW4UlVnZCANHT3Pz8LMFY
