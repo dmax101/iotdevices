@@ -1,55 +1,32 @@
 import { Injectable } from '@nestjs/common';
 import { JwtService } from '@nestjs/jwt';
+import { InjectRepository } from '@nestjs/typeorm';
 import * as bcrypt from 'bcrypt';
-
-const users = [
-  {
-    id: 1,
-    username: 'user1@user.com',
-    password: '$2b$10$oJr/a963iIWtV1siC8vtJOB25.HsLFZ1thSBlg7T/Jm46HSoXu0OO', // senhadodanilo
-  },
-  {
-    id: 2,
-    username: 'user2@user.com',
-    password: '$2b$10$oJr/a963iIWtV1siC8vtJOB25.HsLFZ1thSBlg7T/Jm46HSoXu0OO', // senhadodanilo
-  },
-  {
-    id: 3,
-    username: 'user3@user.com',
-    password: '$2b$10$oJr/a963iIWtV1siC8vtJOB25.HsLFZ1thSBlg7T/Jm46HSoXu0OO', // senhadodanilo
-  },
-];
+import { UserModel } from 'src/users/user.model';
+import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
-  constructor(private jwtService: JwtService) {}
+  constructor(
+    private jwtService: JwtService,
+    @InjectRepository(UserModel) private userModel: Repository<UserModel>,
+  ) {}
 
-  login(username: string, password: string) {
-    const user = this.validateCredentials(username, password);
+  async login(email: string, password: string) {
+    const user = await this.validateCredentials(email, password);
 
     const payload = {
       sub: user.id,
-      username: user.username,
+      email: user.email,
+      firstName: user.firstName,
+      lastName: user.lastName,
     };
 
     return this.jwtService.sign(payload);
   }
 
-  validateCredentials(username: string, password: string) {
-    const user = users.find(
-      (u) =>
-        u.username === username && bcrypt.compareSync(password, u.password),
-    );
-
-    if (!user) {
-      throw new Error('User not found!');
-    }
-
-    return user;
-  }
-
-  async getHash(password: string): Promise<string> {
-    return await new Promise<string>((resolve, reject) => {
+  async validateCredentials(email: string, password: string) {
+    const hashValue = await new Promise<string>((resolve, reject) => {
       bcrypt.genSalt(10, (err: any, salt: any) => {
         if (err) {
           reject(err);
@@ -64,5 +41,19 @@ export class AuthService {
         }
       });
     });
+
+    const user = await this.userModel.findOne({
+      where: { email: email },
+    });
+
+    if (!user) {
+      throw new Error('User not found!');
+    }
+
+    if (!bcrypt.compareSync(password, user.password)) {
+      throw new Error('Email or password is incorrect!');
+    }
+
+    return user;
   }
 }
