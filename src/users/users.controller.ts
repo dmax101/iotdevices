@@ -9,6 +9,7 @@ import {
   ParseUUIDPipe,
   Post,
   Put,
+  Patch,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserModel } from './user.model';
@@ -87,7 +88,7 @@ export class UsersController {
     };
   }
 
-  @Put(':id')
+  @Patch(':id')
   public async update(
     @Param('id', ParseUUIDPipe) id: UUID,
     @Body() body: UserSchema,
@@ -142,7 +143,7 @@ export class UsersController {
   @Delete(':id')
   public async delete(
     @Param('id', ParseUUIDPipe) id: UUID,
-  ): Promise<{ data: UserModel, message?: string }> {
+  ): Promise<{ data: UserModel; message?: string }> {
     const user = await this.model.findOne({ where: { id } });
 
     if (!user) {
@@ -151,6 +152,6 @@ export class UsersController {
 
     this.model.delete({ id });
 
-    return { data: user, message: "User deleted successfully!" };
+    return { data: user, message: 'User deleted successfully!' };
   }
 }

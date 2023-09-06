@@ -4,12 +4,13 @@ import { AppService } from './app.service';
 import { AuthModule } from './auth/auth.module';
 import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
+import { DevicesModule } from './devices/devices.module';
 
 @Module({
   imports: [
     AuthModule,
     UsersModule,
+    DevicesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: 'localhost',
@@ -17,7 +18,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
       username: 'postgres',
       password: 'postgres',
       database: 'db_iotdevices',
-      entities: ["dist/**/*.model.js"],
+      entities: ['dist/**/*.model.js', 'dist/**/*.entity.js'],
       synchronize: true,
     }),
   ],

@@ -28,4 +28,10 @@ const body = {
 
 const newUser: Exclude<UserModel, 'password'> = body
 
-console.log(user);
+const value = {
+  name: "Danilo", age: 18, password: 15456514
+}
+
+const sanitarized = delete value.age
+
+console.log(value);
