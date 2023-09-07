@@ -6,6 +6,7 @@ import { UsersModule } from './users/users.module';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { DevicesModule } from './devices/devices.module';
 import { ConfigModule } from '@nestjs/config';
+import { SharedDevicesModule } from './shared-devices/shared-devices.module';
 
 @Module({
   imports: [
@@ -24,6 +25,7 @@ import { ConfigModule } from '@nestjs/config';
       cache: Boolean(process.env.TYPEORM_CACHE),
       synchronize: Boolean(process.env.TYPEORM_SYNCRHONIZE),
     }),
+    SharedDevicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],
