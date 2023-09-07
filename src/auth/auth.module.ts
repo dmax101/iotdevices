@@ -6,10 +6,12 @@ import { JwtStrategyService } from './jwt-strategy/jwt-strategy.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UserModel } from 'src/users/user.model';
 
+require('dotenv').config(); // Carregar variáveis de ambiente do arquivo .env
+
 @Module({
   imports: [
     JwtModule.register({
-      secret: 'abcd123456',
+      secret: process.env.SECRET_KEY,
       signOptions: {
         expiresIn: '120s',
       },

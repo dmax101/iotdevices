@@ -7,6 +7,8 @@ import { Repository } from 'typeorm';
 
 @Injectable()
 export class AuthService {
+  private tokenBlacklist: Set<string> = new Set();
+
   constructor(
     private jwtService: JwtService,
     @InjectRepository(UserModel) private userModel: Repository<UserModel>,
@@ -20,9 +22,23 @@ export class AuthService {
       email: user.email,
       firstName: user.firstName,
       lastName: user.lastName,
+      isAdmin: user.isAdmin,
+      devices: user.devices,
     };
 
-    return this.jwtService.sign(payload);
+    const token = this.jwtService.sign(payload);
+
+    if (this.tokenBlacklist.has(token)) {
+      throw new Error('Token revoked');
+    }
+
+    return token;
+  }
+
+  addToBlacklist(token: string): void {
+    this.tokenBlacklist.add(token);
+
+    console.log(this.tokenBlacklist);
   }
 
   async validateCredentials(email: string, password: string) {
@@ -42,9 +58,12 @@ export class AuthService {
       });
     });
 
-    const user = await this.userModel.findOne({
-      where: { email: email },
-    });
+    const user = await this.userModel
+      .createQueryBuilder('user')
+      .leftJoinAndSelect('user.devices', 'devices')
+      .where({ email: email })
+      .select(['user', 'devices.id'])
+      .getOne();
 
     if (!user) {
       throw new Error('User not found!');

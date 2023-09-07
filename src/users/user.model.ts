@@ -5,7 +5,7 @@ import {
   PrimaryGeneratedColumn,
   Unique,
 } from 'typeorm';
-import { IsEmail } from 'class-validator';
+import { IsEmail, IsLowercase } from 'class-validator';
 import { DeviceModel } from 'src/devices/entities/device.entity';
 
 @Entity()
@@ -22,10 +22,14 @@ export class UserModel {
 
   @Column({ type: 'varchar', length: 300, nullable: false })
   @IsEmail()
+  @IsLowercase()
   email: string;
 
   @Column({ type: 'varchar', length: 300, nullable: false })
   password: string;
+
+  @Column({ type: 'boolean', nullable: true, default: false })
+  isAdmin?: boolean;
 
   @OneToMany(() => DeviceModel, (device) => device.user)
   devices: DeviceModel[];

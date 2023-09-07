@@ -1,4 +1,4 @@
-import { IsEmail, IsOptional, IsString, MaxLength, MinLength, minLength } from 'class-validator';
+import { IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength, minLength } from 'class-validator';
 
 export class UserSchema {
   @IsString()
@@ -18,4 +18,8 @@ export class UserSchema {
   @IsOptional()
   @MinLength(8)
   password?: string
+
+  @IsBoolean()
+  @IsOptional()
+  isAdmin?: boolean
 }

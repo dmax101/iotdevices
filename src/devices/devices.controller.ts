@@ -7,17 +7,24 @@ import {
   Param,
   Delete,
   ParseUUIDPipe,
+  UseGuards,
 } from '@nestjs/common';
 import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { UUID } from 'crypto';
+import { JwtGuard } from 'src/auth/auth/jwt.guard';
+import { RoleGuard } from 'src/auth/auth/role.guard';
+import { Role } from 'src/auth/decorators/role.decorator';
 
+@UseGuards(JwtGuard)
 @Controller('devices')
 export class DevicesController {
   constructor(private readonly devicesService: DevicesService) {}
 
   @Post()
+  @UseGuards(RoleGuard)
+  @Role(['admin', 'owner'])
   async create(@Body() createDeviceDto: CreateDeviceDto) {
     return { data: await this.devicesService.create(createDeviceDto) };
   }
@@ -33,6 +40,8 @@ export class DevicesController {
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard)
+  @Role(['admin', 'owner'])
   async update(
     @Param('id', ParseUUIDPipe) id: UUID,
     @Body() updateDeviceDto: UpdateDeviceDto,
@@ -41,6 +50,8 @@ export class DevicesController {
   }
 
   @Delete(':id')
+  @UseGuards(RoleGuard)
+  @Role(['admin', 'owner'])
   async remove(@Param('id', ParseUUIDPipe) id: UUID) {
     return { data: await this.devicesService.remove(id) };
   }

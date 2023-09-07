@@ -8,8 +8,8 @@ import {
   Param,
   ParseUUIDPipe,
   Post,
-  Put,
   Patch,
+  UseGuards,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { UserModel } from './user.model';
@@ -17,14 +17,20 @@ import { Repository } from 'typeorm';
 import { UserSchema } from './user.schema';
 import * as bcrypt from 'bcrypt';
 import { UUID } from 'crypto';
+import { JwtGuard } from 'src/auth/auth/jwt.guard';
+import { RoleGuard } from 'src/auth/auth/role.guard';
+import { Role } from 'src/auth/decorators/role.decorator';
 
 @Controller('users')
+@UseGuards(JwtGuard)
 export class UsersController {
   constructor(
     @InjectRepository(UserModel) private model: Repository<UserModel>,
   ) {}
 
   @Post()
+  @UseGuards(RoleGuard)
+  @Role(['admin'])
   public async create(@Body() body: UserSchema): Promise<{ data: UserModel }> {
     const existingUser = await this.model.findOne({
       where: { email: body.email },
@@ -89,6 +95,8 @@ export class UsersController {
   }
 
   @Patch(':id')
+  @UseGuards(RoleGuard)
+  @Role(['admin', 'self'])
   public async update(
     @Param('id', ParseUUIDPipe) id: UUID,
     @Body() body: UserSchema,
@@ -140,6 +148,8 @@ export class UsersController {
     }
   }
 
+  @UseGuards(RoleGuard)
+  @Role(['admin', 'self'])
   @Delete(':id')
   public async delete(
     @Param('id', ParseUUIDPipe) id: UUID,

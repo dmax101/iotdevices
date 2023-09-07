@@ -19,8 +19,6 @@ export class DevicesService {
       where: { id: createDeviceDto.user_id },
     });
 
-    console.log(user);
-
     if (!user) {
       throw new NotFoundException(
         'User not found! The device needs a valid user!',
