@@ -32,7 +32,7 @@ export class UserModel {
   @Column({ type: 'boolean', nullable: true, default: false })
   isAdmin?: boolean;
 
-  @OneToMany(() => DeviceModel, (device) => device.id)
+  @OneToMany(() => DeviceModel, (device) => device.user)
   devices: DeviceModel[];
 
   @OneToMany(() => SharedDeviceModel, sharedDevice => sharedDevice.user)
