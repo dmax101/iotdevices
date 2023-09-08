@@ -5,14 +5,17 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
 import { DevicesModule } from 'src/devices/devices.module';
 import { SharedDevicesService } from './services/shared-devices.service';
+import { JwtService } from '@nestjs/jwt';
+import { UserModel } from 'src/users/entities/user.entity';
+import { DeviceModel } from 'src/devices/entities/device.entity';
 
 @Module({
   imports: [
-    TypeOrmModule.forFeature([SharedDeviceModel]),
+    TypeOrmModule.forFeature([SharedDeviceModel, UserModel, DeviceModel]),
     UsersModule,
     DevicesModule,
   ],
-  providers: [SharedDevicesService],
   controllers: [SharedDevicesController],
+  providers: [SharedDevicesService, JwtService],
 })
 export class SharedDevicesModule {}

@@ -19,8 +19,8 @@ export class SharedDevicesController {
   constructor(private readonly sharedDevicesService: SharedDevicesService) {}
 
   @Post()
-  create(@Body() createSharedDeviceDto: CreateSharedDeviceDto) {
-    return this.sharedDevicesService.create(createSharedDeviceDto);
+  async create(@Body() createSharedDeviceDto: CreateSharedDeviceDto) {
+    return await this.sharedDevicesService.create(createSharedDeviceDto);
   }
 
   @Get()

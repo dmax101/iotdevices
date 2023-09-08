@@ -14,6 +14,7 @@ import { SharedDevicesModule } from './shared-devices/shared-devices.module';
     AuthModule,
     UsersModule,
     DevicesModule,
+    SharedDevicesModule,
     TypeOrmModule.forRoot({
       type: 'postgres',
       host: process.env.POSTGRES_HOST,
@@ -25,7 +26,6 @@ import { SharedDevicesModule } from './shared-devices/shared-devices.module';
       cache: Boolean(process.env.TYPEORM_CACHE),
       synchronize: Boolean(process.env.TYPEORM_SYNCRHONIZE),
     }),
-    SharedDevicesModule,
   ],
   controllers: [AppController],
   providers: [AppService],

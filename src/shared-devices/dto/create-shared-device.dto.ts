@@ -1,12 +1,20 @@
-import { IsString } from 'class-validator';
+import { IsIn, IsString, IsUUID } from 'class-validator';
+import { UUID } from 'crypto';
 
 export class CreateSharedDeviceDto {
   @IsString()
-  deviceRole: 'owner' | 'editor' | 'viewer';
+  @IsIn(['owner', 'editor', 'viewer'], {
+    message:
+      "userDeviceRole invalid! The values must to be 'owner', 'editor' or 'viewer'. Optional value! Viewer is default value.",
+  })
+  userDeviceRole?: 'owner' | 'editor' | 'viewer';
 
-  @IsString()
-  user_id: string;
+  @IsUUID()
+  user_id: UUID;
 
-  @IsString()
-  device_id: string;
+  @IsUUID()
+  owner_id: UUID;
+
+  @IsUUID()
+  device_id: UUID;
 }
