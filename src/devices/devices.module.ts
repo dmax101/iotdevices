@@ -4,7 +4,7 @@ import { DevicesController } from './devices.controller';
 import { DeviceModel } from './entities/device.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';
 import { UsersModule } from 'src/users/users.module';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/entities/user.entity';
 import { JwtService } from '@nestjs/jwt';
 
 @Module({

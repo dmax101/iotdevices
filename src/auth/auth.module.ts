@@ -1,10 +1,10 @@
 import { Module } from '@nestjs/common';
-import { AuthService } from './auth/auth.service';
-import { AuthController } from './auth/auth.controller';
+import { AuthService } from './services/auth.service';
 import { JwtModule } from '@nestjs/jwt';
-import { JwtStrategyService } from './jwt-strategy/jwt-strategy.service';
+import { JwtStrategyService } from './services/jwt-strategy/jwt-strategy.service';
 import { TypeOrmModule } from '@nestjs/typeorm';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/entities/user.entity';
+import { AuthController } from './auth.controller';
 
 require('dotenv').config(); // Carregar variáveis de ambiente do arquivo .env
 

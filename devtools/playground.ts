@@ -1,37 +1,22 @@
-class UserModel {
-  firstName: string;
-  lastName: string;
-  email: string;
-  password: string;
+const bcrypt = require('bcrypt');
 
-  constructor(
-    firstName: string,
-    lastName: string,
-    email: string,
-    password: string = 'default',
-  ) {
-    this.firstName = firstName;
-    this.lastName = lastName;
-    this.email = email;
-    this.password = password;
-  }
-}
+const password = 'admin';
 
-const user = new UserModel('Danilo', 'Ribeiro', 'danriba@gmail.com');
+const generatePass = async (password) => {
+  const saltRounds = 10;
 
-const body = {
-  firstName: 'Danilo',
-  lastName: 'Ribeiro',
-  email: 'danriba@gmail.com',
-  password: 'default',
+  let hash: string;
+
+  return await bcrypt.genSalt(saltRounds, async (err, salt) => {
+    return await bcrypt.hash(password, salt, async (err, hash) => {
+      console.log(hash);
+
+      this.hash = hash
+
+      return hash
+    });
+  });
 };
 
-const newUser: Exclude<UserModel, 'password'> = body
+console.log(generatePass(password));
 
-const value = {
-  name: "Danilo", age: 18, password: 15456514
-}
-
-const sanitarized = delete value.age
-
-console.log(value);

@@ -2,7 +2,7 @@ import { CanActivate, ExecutionContext, Injectable } from '@nestjs/common';
 import { Reflector } from '@nestjs/core';
 import { JwtService } from '@nestjs/jwt';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/entities/user.entity';
 import { Repository } from 'typeorm';
 
 @Injectable()

@@ -1,13 +1,13 @@
 import { UUID } from 'crypto';
-import { UserModel } from 'src/users/user.model';
+import { SharedDeviceModel } from 'src/shared-devices/entities/shared-device.entity';
+import { UserModel } from 'src/users/entities/user.entity';
 import {
   Column,
   Entity,
-  ManyToOne,
   PrimaryGeneratedColumn,
   Unique,
-  Not,
-  IsNull,
+  OneToMany,
+  ManyToOne,
 } from 'typeorm';
 
 @Entity()
@@ -27,4 +27,7 @@ export class DeviceModel {
 
   @ManyToOne(() => UserModel, (user) => user.devices)
   user: UserModel;
+
+  @OneToMany(() => SharedDeviceModel, (sharedDevice) => sharedDevice.device)
+  sharedWithUsers: SharedDeviceModel[];
 }

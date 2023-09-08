@@ -12,13 +12,13 @@ import {
   UseGuards,
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { UserModel } from './user.model';
+import { UserModel } from './entities/user.entity';
 import { Repository } from 'typeorm';
-import { UserSchema } from './user.schema';
+import { UserDto } from './dto/user.dto';
 import * as bcrypt from 'bcrypt';
 import { UUID } from 'crypto';
-import { JwtGuard } from 'src/auth/auth/jwt.guard';
-import { RoleGuard } from 'src/auth/auth/role.guard';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorators/role.decorator';
 
 @Controller('users')
@@ -31,7 +31,7 @@ export class UsersController {
   @Post()
   @UseGuards(RoleGuard)
   @Role(['admin'])
-  public async create(@Body() body: UserSchema): Promise<{ data: UserModel }> {
+  public async create(@Body() body: UserDto): Promise<{ data: UserModel }> {
     const existingUser = await this.model.findOne({
       where: { email: body.email },
     });
@@ -70,7 +70,7 @@ export class UsersController {
   @Get(':id')
   public async getOne(
     @Param('id', ParseUUIDPipe) id: UUID,
-  ): Promise<{ data: UserSchema }> {
+  ): Promise<{ data: UserDto }> {
     const user = await this.model.findOne({ where: { id } });
 
     if (!user) {
@@ -83,7 +83,7 @@ export class UsersController {
   }
 
   @Get()
-  public async getAll(): Promise<{ data: UserSchema[] }> {
+  public async getAll(): Promise<{ data: UserDto[] }> {
     const list = await this.model.find();
 
     return {
@@ -99,8 +99,8 @@ export class UsersController {
   @Role(['admin', 'self'])
   public async update(
     @Param('id', ParseUUIDPipe) id: UUID,
-    @Body() body: UserSchema,
-  ): Promise<{ data: UserSchema | Omit<UserModel, 'password'> }> {
+    @Body() body: UserDto,
+  ): Promise<{ data: UserDto | Omit<UserModel, 'password'> }> {
     const user = await this.model.findOne({ where: { id } });
 
     if (!user) {

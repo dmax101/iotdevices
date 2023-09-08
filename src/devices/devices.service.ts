@@ -5,7 +5,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
 import { DeviceModel } from './entities/device.entity';
 import { UUID } from 'crypto';
-import { UserModel } from 'src/users/user.model';
+import { UserModel } from 'src/users/entities/user.entity';
 
 @Injectable()
 export class DevicesService {

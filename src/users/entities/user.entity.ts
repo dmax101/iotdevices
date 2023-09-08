@@ -7,6 +7,7 @@ import {
 } from 'typeorm';
 import { IsEmail, IsLowercase } from 'class-validator';
 import { DeviceModel } from 'src/devices/entities/device.entity';
+import { SharedDeviceModel } from 'src/shared-devices/entities/shared-device.entity';
 
 @Entity()
 @Unique(['email'])
@@ -31,6 +32,9 @@ export class UserModel {
   @Column({ type: 'boolean', nullable: true, default: false })
   isAdmin?: boolean;
 
-  @OneToMany(() => DeviceModel, (device) => device.user)
+  @OneToMany(() => DeviceModel, (device) => device.id)
   devices: DeviceModel[];
+
+  @OneToMany(() => SharedDeviceModel, sharedDevice => sharedDevice.user)
+  sharedDevices: SharedDeviceModel[];
 }

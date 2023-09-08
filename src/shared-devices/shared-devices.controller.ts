@@ -1,9 +1,11 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
 import { SharedDevicesService } from './shared-devices.service';
 import { CreateSharedDeviceDto } from './dto/create-shared-device.dto';
 import { UpdateSharedDeviceDto } from './dto/update-shared-device.dto';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
 
 @Controller('shared-devices')
+@UseGuards(JwtGuard)
 export class SharedDevicesController {
   constructor(private readonly sharedDevicesService: SharedDevicesService) {}
 

@@ -1,6 +1,6 @@
 import { IsBoolean, IsEmail, IsOptional, IsString, MaxLength, MinLength, minLength } from 'class-validator';
 
-export class UserSchema {
+export class UserDto {
   @IsString()
   @MaxLength(300)
   firstName: string;

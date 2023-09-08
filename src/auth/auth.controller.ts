@@ -7,10 +7,11 @@ import {
   Headers,
   UnauthorizedException,
 } from '@nestjs/common';
-import { AuthService } from './auth.service';
-import { JwtGuard } from './jwt.guard';
-import { Role } from '../decorators/role.decorator';
-import { RoleGuard } from './role.guard';
+import { Role } from 'src/auth/decorators/role.decorator';
+import { JwtGuard } from './guards/jwt.guard';
+import { RoleGuard } from './guards/role.guard';
+import { AuthService } from './services/auth.service';
+
 
 @Controller()
 export class AuthController {

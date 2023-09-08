@@ -13,8 +13,8 @@ import { DevicesService } from './devices.service';
 import { CreateDeviceDto } from './dto/create-device.dto';
 import { UpdateDeviceDto } from './dto/update-device.dto';
 import { UUID } from 'crypto';
-import { JwtGuard } from 'src/auth/auth/jwt.guard';
-import { RoleGuard } from 'src/auth/auth/role.guard';
+import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { RoleGuard } from 'src/auth/guards/role.guard';
 import { Role } from 'src/auth/decorators/role.decorator';
 
 @UseGuards(JwtGuard)
