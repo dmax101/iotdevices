@@ -1,8 +1,17 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete, UseGuards } from '@nestjs/common';
-import { SharedDevicesService } from './shared-devices.service';
+import {
+  Controller,
+  Get,
+  Post,
+  Body,
+  Patch,
+  Param,
+  Delete,
+  UseGuards,
+} from '@nestjs/common';
 import { CreateSharedDeviceDto } from './dto/create-shared-device.dto';
 import { UpdateSharedDeviceDto } from './dto/update-shared-device.dto';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
+import { SharedDevicesService } from './services/shared-devices.service';
 
 @Controller('shared-devices')
 @UseGuards(JwtGuard)
@@ -25,7 +34,10 @@ export class SharedDevicesController {
   }
 
   @Patch(':id')
-  update(@Param('id') id: string, @Body() updateSharedDeviceDto: UpdateSharedDeviceDto) {
+  update(
+    @Param('id') id: string,
+    @Body() updateSharedDeviceDto: UpdateSharedDeviceDto,
+  ) {
     return this.sharedDevicesService.update(+id, updateSharedDeviceDto);
   }
 

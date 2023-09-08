@@ -16,8 +16,6 @@ export class RoleGuard implements CanActivate {
   async canActivate(context: ExecutionContext) {
     const role: string[] = this.reflector.get('role', context.getHandler());
 
-    console.log(role);
-
     if (!role) {
       return true;
     }
@@ -27,8 +25,6 @@ export class RoleGuard implements CanActivate {
     const payload = await this.jwtService.verifyAsync(token, {
       secret: process.env.SECRET_KEY,
     });
-
-    console.log(payload);
 
     if (role.includes('admin') && payload['isAdmin']) {
       return true;

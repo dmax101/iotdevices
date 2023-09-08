@@ -37,8 +37,6 @@ export class AuthService {
 
   addToBlacklist(token: string): void {
     this.tokenBlacklist.add(token);
-
-    console.log(this.tokenBlacklist);
   }
 
   async validateCredentials(email: string, password: string) {

@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
-import { CreateSharedDeviceDto } from './dto/create-shared-device.dto';
-import { UpdateSharedDeviceDto } from './dto/update-shared-device.dto';
+import { CreateSharedDeviceDto } from '../dto/create-shared-device.dto';
+import { UpdateSharedDeviceDto } from '../dto/update-shared-device.dto';
 
 @Injectable()
 export class SharedDevicesService {

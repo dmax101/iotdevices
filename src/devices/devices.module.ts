@@ -1,5 +1,5 @@
 import { Module } from '@nestjs/common';
-import { DevicesService } from './devices.service';
+import { DevicesService } from './services/devices.service';
 import { DevicesController } from './devices.controller';
 import { DeviceModel } from './entities/device.entity';
 import { TypeOrmModule } from '@nestjs/typeorm';

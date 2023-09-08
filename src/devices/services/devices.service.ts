@@ -1,9 +1,9 @@
 import { Injectable, NotFoundException, ParseUUIDPipe } from '@nestjs/common';
-import { CreateDeviceDto } from './dto/create-device.dto';
-import { UpdateDeviceDto } from './dto/update-device.dto';
+import { CreateDeviceDto } from '../dto/create-device.dto';
+import { UpdateDeviceDto } from '../dto/update-device.dto';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Repository } from 'typeorm';
-import { DeviceModel } from './entities/device.entity';
+import { DeviceModel } from '../entities/device.entity';
 import { UUID } from 'crypto';
 import { UserModel } from 'src/users/entities/user.entity';
 
