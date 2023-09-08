@@ -39,3 +39,6 @@ lerna-debug.log*
 
 # Environments Variables
 *.env
+
+# Annotations
+annotations.md
