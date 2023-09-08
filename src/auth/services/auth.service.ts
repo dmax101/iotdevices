@@ -23,7 +23,6 @@ export class AuthService {
       firstName: user.firstName,
       lastName: user.lastName,
       isAdmin: user.isAdmin,
-      devices: user.devices,
     };
 
     const token = this.jwtService.sign(payload);
@@ -60,7 +59,7 @@ export class AuthService {
       .createQueryBuilder('user')
       .leftJoinAndSelect('user.devices', 'devices')
       .where({ email: email })
-      .select(['user', 'devices.id'])
+      .select(['user'])
       .getOne();
 
     if (!user) {

@@ -7,11 +7,15 @@ import {
   Param,
   Delete,
   UseGuards,
+  ParseUUIDPipe,
 } from '@nestjs/common';
 import { CreateSharedDeviceDto } from './dto/create-shared-device.dto';
 import { UpdateSharedDeviceDto } from './dto/update-shared-device.dto';
 import { JwtGuard } from 'src/auth/guards/jwt.guard';
 import { SharedDevicesService } from './services/shared-devices.service';
+import { DeviceRoleGuard } from 'src/shared-devices/guards/device-role.guard';
+import { DeviceRole } from 'src/auth/decorators/device-role.decorator';
+import { UUID } from 'crypto';
 
 @Controller('shared-devices')
 @UseGuards(JwtGuard)
@@ -19,30 +23,40 @@ export class SharedDevicesController {
   constructor(private readonly sharedDevicesService: SharedDevicesService) {}
 
   @Post()
+  @UseGuards(DeviceRoleGuard)
+  @DeviceRole(['owner'])
   async create(@Body() createSharedDeviceDto: CreateSharedDeviceDto) {
-    return await this.sharedDevicesService.create(createSharedDeviceDto);
+    return {
+      data: await this.sharedDevicesService.create(createSharedDeviceDto),
+    };
   }
 
   @Get()
-  findAll() {
-    return this.sharedDevicesService.findAll();
+  async findAll() {
+    return { data: await this.sharedDevicesService.findAll() };
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.sharedDevicesService.findOne(+id);
+  async findOne(@Param('id', ParseUUIDPipe) id: UUID) {
+    return { data: await this.sharedDevicesService.findOne(id) };
   }
 
   @Patch(':id')
-  update(
-    @Param('id') id: string,
+  @UseGuards(DeviceRoleGuard)
+  @DeviceRole(['owner', 'editor'])
+  async update(
+    @Param('id', ParseUUIDPipe) id: UUID,
     @Body() updateSharedDeviceDto: UpdateSharedDeviceDto,
   ) {
-    return this.sharedDevicesService.update(+id, updateSharedDeviceDto);
+    return {
+      data: await this.sharedDevicesService.update(id, updateSharedDeviceDto),
+    };
   }
 
   @Delete(':id')
-  remove(@Param('id') id: string) {
-    return this.sharedDevicesService.remove(+id);
+  @UseGuards(DeviceRoleGuard)
+  @DeviceRole(['owner'])
+  async remove(@Param('id', ParseUUIDPipe) id: UUID) {
+    return { data: await this.sharedDevicesService.remove(id) };
   }
 }

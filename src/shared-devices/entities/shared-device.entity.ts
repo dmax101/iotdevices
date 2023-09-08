@@ -11,7 +11,7 @@ export class SharedDeviceModel {
 
   @Column({default: 'viewer'})
   @IsString()
-  deviceRole: 'owner' | 'editor' | 'viewer';
+  userDeviceRole: 'owner' | 'editor' | 'viewer';
 
   @ManyToOne(() => UserModel, (user) => user.sharedDevices)
   user: UserModel;

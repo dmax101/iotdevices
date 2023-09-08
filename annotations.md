@@ -1,4 +1,5 @@
 # Anotações
+## Users
 
 ```json
 {
@@ -25,4 +26,28 @@
     "isAdmin": false,
     "id": "99d40de7-16f7-4f6d-8322-1263796c9c51"
   }
+```
+## Devices
+```json
+[
+    {
+      "id": "46730556-1707-49f2-99cb-89a4c298484e",
+      "type": "cam flavia",
+      "local": "office",
+      "name": "cam office"
+    },
+    {
+      "id": "b12d419b-6ad2-4a72-80e0-756959e6067a",
+      "type": "cam danilo",
+      "local": "office",
+      "name": "cam office"
+    },
+    {
+      "id": "206afaaf-f858-4416-bf3f-1ef8b305ae97",
+      "type": "cam sofia",
+      "local": "office",
+      "name": "cam office"
+    }
+  ]
+
 ```
